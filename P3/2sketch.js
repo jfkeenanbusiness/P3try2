@@ -1,4 +1,3 @@
-
 let player;
 let clouds;
 let score;
@@ -19,18 +18,16 @@ function setup() {
   clouds = new Group();
 
   player = createSprite(10, 10, 10, 20);
-  player.shapeColor = color(230, 0, 0);
 
-  
-  for (let i = 0; i < 100; i++) {
-    let c = createSprite(
-      random(width), random(height),
-      random(25, 100), random(25, 100));
-    c.shapeColor = color(random(200, 255));
-    clouds.add(c); 
-  }
-
-  console.log(map(-50, -100, 100, 0, 5))
+      for (let i = 0; i < 100; i++) {
+      let c = createSprite(
+        random(width), random(height),
+        random(25, 100), random(25, 100));
+      // c.shapeColor = color(random(200, 255));
+        c.shapeColor = color(255,255,255);
+        c.strokeColor =color(255,255,255);
+      clouds.add(c); 
+    }
 
 }
 
@@ -43,35 +40,28 @@ function setup() {
 function draw() { 
 background(0,0,0);
 
-// if (mode == 1){
-//   background(100,80,10);
-//   noStroke();
-//   textSize(100);
-//   textAlign(CENTER, CENTER);
-//   text("Mouse Survival", width/2, height/2)
-// }
 
- if (mode == 1){
+ if (mode == 2){
+  player.shapeColor = color(255-(frameCount));
+
   score = Math.round(frameCount/60)-3;
   player.position.x = mouseX+5;
   player.position.y = mouseY+10;
 
   if (frameCount < 180) {
-    background(map(mouseX, 0, width, 0, 360),
-    map(mouseY, 0, height, 0, 100),
-    frameCount % 100);
+    background(255-(frameCount))
   }
 
   if (frameCount > 180) {
   for (let i = 0; i < clouds.length; i++) {
-    clouds[i].position.x += clouds[i].width * 0.1;
+    clouds[i].position.x += clouds[i].width * 0.01;
     if (clouds[i].position.x > width) {
       clouds[i].position.x = 0;}
     }  
     
   clouds.collide(player, changeMode);
   fill(255,255,255);
-  noStroke();
+  // noStroke();
   textSize(100);
   textAlign(CENTER, CENTER);
   text(score, width/2, height/2)
@@ -83,18 +73,31 @@ background(0,0,0);
 
   
 
-  if (mode == 2){
+  if (mode == 3){
     background(20);
     gameover();
   }
   
-//   if (mode == 3){
-//  mode --;
-//   }
+  if (mode == 1){
+    background(255,255,255)
+    player.shapeColor = color(255, 255, 255);
+
+    fill(0);
+    noStroke();
+    textSize(100);
+    textAlign(CENTER, CENTER);
+    text("Click to Start", width/2, height/2)
+
+
+  
+
+  }
 
 
 
 }
+
+
 
 
 
@@ -138,9 +141,19 @@ text(score, width/2, height/2);
 
 }
 
+function mouseClicked(){
+  if (mode == 1){
+    mode++;
+    frameCount = 0;
+  }
 
+  if(mode== 3){
+    mode--;
+    mode--;
+  }
 
-// clouds.life = 120; ~ frames
+  
+}
 
 
 
